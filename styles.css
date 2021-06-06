@@ -1,0 +1,30 @@
+.container{
+    border: 1px solid black;
+    border-radius:20px 20px 20px 20px;
+    width:80%;
+    margin: auto;
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns:60% ;
+    justify-content: center;
+    font-size: 250%;
+    background-color:rgb(49, 49, 49);
+}
+.change_digit{
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    justify-content: space-evenly;
+}
+#numbers{
+    margin:auto;
+}
+#control{
+    margin: auto;
+    margin-bottom: 10px;
+}
+.container>div{
+    margin-top: 10px;
+}
+span{
+    color: white;
+}
