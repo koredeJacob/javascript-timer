@@ -1,37 +1,49 @@
-var button=document.getElementsByClassName("addsub")
-var start_stop=document.getElementsByClassName("startstop");
-var reset=document.getElementById("reset");
-var hour=document.getElementById("hours");
-var minutes = document.getElementById("minutes");
-var seconds = document.getElementById("seconds");
+let button=document.getElementsByClassName("addsub")
+let start_stop=document.getElementsByClassName("startstop");
+let reset=document.getElementById("reset");
+let hour=document.getElementById("hours");
+let minutes = document.getElementById("minutes");
+let seconds = document.getElementById("seconds");
 
 start_stop[0].addEventListener("click",startstop,false);
 start_stop[1].addEventListener("click",resetval,false);
+
+let timer;
+//function to reset values to "00" values if reset button is pressed
 function resetval(){
+    end();
+    //if reset button is pressed re add eventlisteners
+    for (let i = 0; i < button.length; i++) {
+        button[i].addEventListener("click", process, false);
+    }
     hour.textContent="00";
     minutes.textContent="00";
     seconds.textContent="00";
 }
 
 function startstop(){
-    var _id = this.id == "start" ? "stop" : "start";
+    //remove event listeners while timer is functioning
+    for (let i = 0; i < button.length; i++) {
+        button[i].removeEventListener("click", process);
+    }
+    let _id = this.id == "start" ? "stop" : "start";
     this.id=_id;
+
     if(this.id=="stop"){
         this.textContent="STOP";
-        start();
+        start();//start timer and change text content to stop
     }
     else{
         this.textContent="START";
-        stop();
+        stop();//pause timer and change textcontent to start
     }
 }
 
-var start;
-function start() {
+function start() {//countdown timer every second
     timer=setInterval(subsec,1000);
 }
 
-function stop(){
+function stop(){// function to pause timer 
     clearInterval(timer)
 }
 
@@ -40,8 +52,8 @@ for (let i = 0; i < button.length; i++) {
 }
 
 function process() {
-    var x = this.id;
-    check(x);
+    let x = this.id;
+    check(x);//pass id of clicked button to check
 }
 
 function check(value){
@@ -53,16 +65,16 @@ function check(value){
         addsec();
     else if(value==="subhour")
         subhour();
-    else if (value === "submin") 
+    else if (value==="submin") 
         submin();
     else
-        subsec();
+      subsec();
 }
 
 function addhour(){
-    var content=parseInt(hour.textContent);
-    var x = increase(content);
-    var value=x;
+    let content=parseInt(hour.textContent);
+    let x = increase(content);
+    let value=x;
     if(x<10){
         value="0"+x;
     }
@@ -73,43 +85,42 @@ function addhour(){
 }
 
 function addmin(){
-    var content=parseInt(minutes.textContent);
-    var x=increase(content);
-    var value=x+"";
-    if(x<10){
+    let content=parseInt(minutes.textContent);//get time in minutes
+    let x=increase(content);
+    let value=x+"";
+    if(x<10)
         value="0"+x;
-    }
+    
     if(x>=59 && hour.textContent=="59"){
         value="59";
     }
     else if (x > 59) {
         value= "00";
-        addhour();
+        addhour();//if minutes greater than 59 call addhour() function
     }
     minutes.textContent=value;
 }
 
 function addsec(){
-    var content = parseInt(seconds.textContent);
-    var x = increase(content);
-    var value=x+"";
-    if(x<10){
+    let content = parseInt(seconds.textContent);//get time in seconds
+    let x = increase(content);
+    let value=x+"";
+    if(x<10)
         value="0"+x;
-    }
     if (x >= 59 && hour.textContent == "59" && minutes.textContent=="59") {
         value="59"
     }
     else if (x > 59) {
         value = "00";
-        addmin();
+        addmin();//if seconds greater than 59 call addmin() function
     }
     seconds.textContent =value;
 }
 
 function subhour(){
-    var content=parseInt(hour.textContent);
-    var x=decrease(content);
-    var value=x+"";
+    let content=parseInt(hour.textContent);
+    let x=decrease(content);
+    let value=x+"";
     if(x<10){
         value="0"+x;
     }
@@ -120,39 +131,45 @@ function subhour(){
 }
 
 function submin(){
-    var content=parseInt(minutes.textContent);
-    var x=decrease(content);
-    var value=x+"";
-    if(x<10){
+    let content=parseInt(minutes.textContent);
+    let x=decrease(content);
+    let value=x+"";
+    if(x<10)
         value="0"+x
-    }
+    
     if(x<=0 && hour.textContent=="00"){
         value="00";
     }
     else if(x<0){
         value="59";
-        subhour();
+        subhour();//call subhour() function if hour is not 00
     }
     minutes.textContent=value;
 }
 
 function subsec(){
-    var content=parseInt(seconds.textContent);
-    var x=decrease(content);
-    var value=x+"";
-    if(x<10){
+    let content=parseInt(seconds.textContent);
+    let x=decrease(content);
+    let value=x+"";
+    if(x<10)
         value="0"+x;
-    }
+    
     if(x<=0 && minutes.textContent=="00" && hour.textContent=="00"){
         value="00";
+        end();
     }
     else if (x < 0) {
         value= "59"
-        submin();
+        submin();//call submin() if hour and minutes are not 00
     }
     seconds.textContent=value;
 }
-
+//function to clear interval and change start_stop button id  and textcontent to start
+function end(){
+    start_stop[0].id = "start";
+    start_stop[0].textContent = "START";
+    stop();
+}
 function increase(num){
     return ++num;
 }
