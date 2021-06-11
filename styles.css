@@ -31,11 +31,11 @@ span{
 button{
     border-radius:5px ;
 }
-.start{
+#start{
     background-color: green;
     color: white;
 }
-.stop{
+.change{
     background-color: red;
     color: white;
 }

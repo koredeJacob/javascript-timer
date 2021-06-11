@@ -12,10 +12,6 @@ let timer;
 //function to reset values to "00" values if reset button is pressed
 function resetval(){
     end();
-    //if reset button is pressed re add eventlisteners
-    for (let i = 0; i < button.length; i++) {
-        button[i].addEventListener("click", process, false);
-    }
     hour.textContent="00";
     minutes.textContent="00";
     seconds.textContent="00";
@@ -30,9 +26,11 @@ function startstop(){
     this.id=_id;
 
     if(this.id=="stop"){
-        this.textContent="STOP";
-        start();//start timer and change text content to stop
+        this.classList.add("change");
+        this.textContent="stop";
+        start();//start timer and change text content to sto
     }
+
     else{
         this.textContent="START";
         stop();//pause timer and change textcontent to start
@@ -169,6 +167,9 @@ function end(){
     start_stop[0].id = "start";
     start_stop[0].textContent = "START";
     stop();
+    for (let i = 0; i < button.length; i++) {
+        button[i].addEventListener("click", process, false);
+    }
 }
 function increase(num){
     return ++num;
